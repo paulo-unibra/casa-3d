@@ -19,7 +19,7 @@ Para atualizar o GitHub Pages, execute `npm run build` e envie também os arquiv
 
 ## Planta e precisão
 
-A planta enviada pelo proprietário define a **disposição** dos ambientes. Olhando da frente para os fundos: terraço à esquerda e quarto 1 à direita; sala ao centro com quarto 2 à direita; banheiro e área de serviço à esquerda dos fundos, cozinha à direita. Os acessos internos foram posicionados conforme as aberturas desenhadas na planta. A planta original está disponível na interface para comparação.
+A planta enviada pelo proprietário define a **disposição** dos ambientes. Olhando da frente para os fundos: terraço à esquerda e quarto 1 à direita; sala ao centro com quarto 2 à direita; banheiro e área de serviço à esquerda dos fundos, cozinha à direita. Os acessos internos foram posicionados conforme as aberturas desenhadas na planta. Na parede lateral direita há somente uma janela, no quarto 2; a cozinha e o quarto 1 não têm janelas nessa lateral. A planta original está disponível na interface para comparação.
 
 O laudo de 27/02/2026 informa **54,07 m² de área privativa** e **114,88 m² de terreno**, mas a planta enviada não contém cotas lineares. O contorno aproximado de 6,40 × 8,45 m e cada dimensão de parede, porta e janela foram estimados pelas proporções do desenho e pelas fotografias. Mobiliário e peças sanitárias são representações esquemáticas. Não use o modelo para obra ou mobiliário sob medida sem levantamento in loco.
 

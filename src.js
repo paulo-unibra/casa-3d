@@ -36,14 +36,14 @@ wallX(-2.65,-1.7,front,plaster,.53,2.535,false);
 wallX(1.05,2.25,front,plaster,1.04,.52);wallX(1.05,2.25,front,greenTiles,.4,2.6,false);
 wallX(-3.2,-2.7,back);wallX(-1.6,3.2,back);wallX(-2.7,-1.6,back,plaster,.55,2.525,false);
 wallZ(back,front,-3.2);
-// Openings to the kitchen, second bedroom and first bedroom along the right side.
-wallZ(back,-3.45,3.2);wallZ(-2.45,-.85,3.2);wallZ(-.85,-.05,3.2);wallZ(.95,2.45,3.2);wallZ(3.45,front,3.2);
-for(const z of [-2.95,.45,2.95]){wallZ(z-.5,z+.5,3.2,plaster,.9,.45);wallZ(z-.5,z+.5,3.2,plaster,.62,2.49,false)}
-// Green ceramic tile on the front facade and the side window of Quarto 1.
+// One side window only, at Quarto 2 as marked on the supplied plan.
+wallZ(back,-.05,3.2);wallZ(.95,front,3.2);
+wallZ(-.05,.95,3.2,plaster,.9,.45);wallZ(-.05,.95,3.2,plaster,.62,2.49,false);
+// Green ceramic tile on the front facade and around the side window of Quarto 2.
 box(1.2,1.04,.015,1.65,.52,front+.083,greenTiles,false);
 box(1.2,.4,.015,1.65,2.6,front+.083,greenTiles,false);
-box(.016,.9,1.04,3.285,.45,2.95,greenTiles,false);
-box(.016,.54,1.04,3.285,2.53,2.95,greenTiles,false);
+box(.016,.9,1.04,3.285,.45,.45,greenTiles,false);
+box(.016,.54,1.04,3.285,2.53,.45,greenTiles,false);
 // Terrace -> Sala; the wide opening reproduces the photo of the entrance.
 wallX(-3.2,-2.65,terraceZ,interior);wallX(-1.18,splitX,terraceZ,interior);
 // Sala -> Quarto 1, door on the top edge of the bedroom in the supplied plan.
@@ -66,7 +66,7 @@ openingX(-2.15,back,1.1,whiteMetal);
 function windowX(x,z,w,h,y){box(w+.1,.055,.08,x,y+h/2,z,whiteMetal,false);box(w+.1,.055,.08,x,y-h/2,z,whiteMetal,false);box(.05,h,.08,x-w/2,y,z,whiteMetal,false);box(.05,h,.08,x+w/2,y,z,whiteMetal,false);box(w,h,.015,x,y,z,glass,false);for(let v=-w/2+.17;v<w/2;v+=.2)box(.013,h,.018,x+v,y,z+.055,darkMetal,false);for(let v=-h/2+.17;v<h/2;v+=.2)box(w,.013,.018,x,y+v,z+.055,darkMetal,false)}
 function windowZ(x,z,w,h,y){box(.08,.055,w+.1,x,y+h/2,z,whiteMetal,false);box(.08,.055,w+.1,x,y-h/2,z,whiteMetal,false);box(.08,h,.05,x,y,z-w/2,whiteMetal,false);box(.08,h,.05,x,y,z+w/2,whiteMetal,false);box(.015,h,w,x,y,z,glass,false);for(let v=-w/2+.16;v<w/2;v+=.2)box(.02,h,.013,x+.08,y,z+v,darkMetal,false);for(let v=-h/2+.17;v<h/2;v+=.2)box(.02,.013,w,x+.08,y+v,z,darkMetal,false)}
 windowX(1.65,front+.089,1.2,1.12,1.63);
-for(const z of [-2.95,.45,2.95])windowZ(3.29,z,1,.9,1.47);
+windowZ(3.29,.45,1,.9,1.47);
 // Lightweight entrance grille and aluminium glazed door.
 box(.055,2.0,.055,-2.72,1.01,front+.16,darkMetal,false);box(.055,2.0,.055,-1.66,1.01,front+.16,darkMetal,false);
 for(let i=0;i<10;i++)box(1.09,.018,.025,-2.19,.22+i*.19,front+.17,darkMetal,false);
