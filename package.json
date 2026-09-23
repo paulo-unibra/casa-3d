@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --open /source.html",
-    "build": "vite build && node scripts/sync-pages.mjs",
+    "build": "node scripts/clean-dist.mjs && vite build && node scripts/sync-pages.mjs",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
