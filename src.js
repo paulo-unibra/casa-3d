@@ -12,7 +12,7 @@ const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-per
 const orbit=new OrbitControls(camera,renderer.domElement);orbit.enableDamping=true;orbit.dampingFactor=.07;orbit.minDistance=5;orbit.maxDistance=28;orbit.minPolarAngle=.05;orbit.maxPolarAngle=1.25;orbit.target.set(0,1,0);
 scene.add(new THREE.HemisphereLight('#ffffff','#adaba0',3.2));scene.add(new THREE.AmbientLight('#ffffff',.7));const sun=new THREE.DirectionalLight('#fff4d5',3.4);sun.position.set(-7,14,8);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-19;sun.shadow.camera.right=19;sun.shadow.camera.top=19;sun.shadow.camera.bottom=-19;sun.shadow.bias=-.0001;scene.add(sun);
 const mat=(color,roughness=1,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
-const plaster=mat('#e9e2ce'), interior=mat('#efeee7'), concrete=mat('#b6b3a8'), darkMetal=mat('#333f3c',.45,.65), whiteMetal=mat('#e4e8e5',.32,.38), green=mat('#1d5945',.75), glass=new THREE.MeshPhysicalMaterial({color:'#cadbd5',transparent:true,opacity:.28,metalness:.05,roughness:.12,side:THREE.DoubleSide,depthWrite:false}),grass=mat('#7e9159'),soil=mat('#8b7654'),brick=mat('#a45c46');
+const plaster=mat('#e6d5a8'), interior=mat('#efeee7'), concrete=mat('#b6b3a8'), darkMetal=mat('#333f3c',.45,.65), whiteMetal=mat('#e4e8e5',.32,.38), green=mat('#1d5945',.75), glass=new THREE.MeshPhysicalMaterial({color:'#cadbd5',transparent:true,opacity:.28,metalness:.05,roughness:.12,side:THREE.DoubleSide,depthWrite:false}),grass=mat('#7e9159'),soil=mat('#8b7654'),brick=mat('#a45c46');
 function gridTexture(base,line,step=80,size=512){const c=document.createElement('canvas');c.width=c.height=size;const x=c.getContext('2d');x.fillStyle=base;x.fillRect(0,0,size,size);x.strokeStyle=line;x.lineWidth=3;for(let i=0;i<=size;i+=step){x.beginPath();x.moveTo(i,0);x.lineTo(i,size);x.moveTo(0,i);x.lineTo(size,i);x.stroke()}const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;return t}
 const floorTex=gridTexture('#d7d5ce','#a9a9a1',64);floorTex.repeat.set(6,8);const tileMat=new THREE.MeshStandardMaterial({map:floorTex,roughness:.55});const greenTex=gridTexture('#245d49','#d8d9cb',40);greenTex.repeat.set(1,2);const greenTiles=new THREE.MeshStandardMaterial({map:greenTex,roughness:.72});
 function box(w,h,d,x,y,z,m,shadow=true){let mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);mesh.position.set(x,y,z);mesh.castShadow=shadow;mesh.receiveShadow=true;scene.add(mesh);return mesh}
@@ -109,22 +109,22 @@ slidingPart(.025,.22,.055,.39,1.05,.05,darkMetal);
 obstacles.push({x1:-2.7,x2:-1.68,z1:terraceZ-.09,z2:terraceZ+.1});
 const slidingDoor=registerDoor('Porta de correr da sala',[...sliderFixed,...slidingMeshes],[{object:slider,openX:-2.18,closedX:-1.17}],{x1:-1.7,x2:-.65,z1:terraceZ-.11,z2:terraceZ+.1});
 // Room doors have a white leaf and the brown jamb visible in the walk-through.
-const doorWhite=mat('#e8e8e3',.58),handle=mat('#aab0ac',.34,.6);
-function doorLeafX(x,z,w,swing,material=doorWhite){
+const doorBrown=mat('#845637',.72),doorDetail=mat('#70472e',.74),handle=mat('#aab0ac',.34,.6);
+function doorLeafX(x,z,w,swing,material=doorBrown){
  const pivot=new THREE.Group();pivot.position.set(x,0,z);pivot.rotation.y=swing;scene.add(pivot);
  const meshes=[];
  const part=(pw,ph,pd,px,py,pz,m)=>{const mesh=new THREE.Mesh(new THREE.BoxGeometry(pw,ph,pd),m);mesh.position.set(px,py,pz);mesh.castShadow=true;pivot.add(mesh);meshes.push(mesh)};
  part(w-.045,2.02,.035,w/2,1.01,0,material);
- for(const y of [.3,1.65])part(w-.14,.012,.006,w/2,y,.022,whiteMetal);
+ for(const y of [.3,1.65])part(w-.14,.012,.006,w/2,y,.022,material===doorBrown?doorDetail:whiteMetal);
  part(.065,.025,.08,w-.13,1.01,.065,handle);
  return {pivot,meshes,swing,zone:{x1:x-.04,x2:x+w+.04,z1:z-.11,z2:z+.11}};
 }
-function doorLeafZ(x,z,w,swing,material=doorWhite){
+function doorLeafZ(x,z,w,swing,material=doorBrown){
  const pivot=new THREE.Group();pivot.position.set(x,0,z);pivot.rotation.y=swing;scene.add(pivot);
  const meshes=[];
  const part=(pw,ph,pd,px,py,pz,m)=>{const mesh=new THREE.Mesh(new THREE.BoxGeometry(pw,ph,pd),m);mesh.position.set(px,py,pz);mesh.castShadow=true;pivot.add(mesh);meshes.push(mesh)};
  part(.035,2.02,w-.045,0,1.01,w/2,material);
- for(const y of [.3,1.65])part(.006,.012,w-.14,.022,y,w/2,whiteMetal);
+ for(const y of [.3,1.65])part(.006,.012,w-.14,.022,y,w/2,material===doorBrown?doorDetail:whiteMetal);
  part(.08,.025,.065,.065,1.01,w-.13,handle);
  return {pivot,meshes,swing,zone:{x1:x-.11,x2:x+.11,z1:z-.04,z2:z+w+.04}};
 }
@@ -154,7 +154,7 @@ for(const [name,x,z] of [['SALA',-.9,.7],['TERRAÇO',-1.62,3.58],['QUARTO 1',1.6
  const canvas=document.createElement('canvas');canvas.width=384;canvas.height=96;const c=canvas.getContext('2d');c.fillStyle='#f6f5ed';c.fillRect(0,0,384,96);c.fillStyle='#254a39';c.font='700 40px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(name,192,48);const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const labelMesh=new THREE.Mesh(new THREE.PlaneGeometry(1.45,.36),new THREE.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false,side:THREE.DoubleSide}));labelMesh.rotation.x=-Math.PI/2;labelMesh.position.set(x,.09,z);aerialLabels.add(labelMesh)
 }
 // Soft context: neighbouring low volumes avoid a floating diorama.
-for(const x of [-10.6,10.9]){box(5.2,2.6,8.6,x,1.2,-1.4,plaster);box(5.4,.13,8.8,x,2.56,-1.4,concrete)}
+for(const x of [-10.6,10.9]){box(5.2,2.6,8.6,x,1.2,-1.4,mat('#d5d0c2'));box(5.4,.13,8.8,x,2.56,-1.4,concrete)}
 const visit=[['Fachada',[-.2,1.65,9.0],0],['Terraço',[-1.2,1.62,3.64],0],['Sala',[-1.2,1.62,1.2],-.55],['Quarto 1',[1.6,1.62,3.0],0],['Quarto 2',[2.2,1.62,.45],0],['Cozinha',[1.6,1.62,-2.45],Math.PI],['Banheiro',[-1.65,1.62,-1.65],Math.PI/2],['Serviço',[-1.65,1.62,-3.35],0],['Jardim',[4.15,1.62,-.7],Math.PI/2]];
 const rooms=document.querySelector('#rooms');visit.slice(1).forEach(([name],i)=>{const b=document.createElement('button');b.className='room';b.textContent=name;b.onclick=()=>go(i+1);rooms.append(b)});
 let mode='aerial',yaw=0,pitch=0,roofVisible=false,pressed=new Set(),drag=false,lastX=0,lastY=0;
