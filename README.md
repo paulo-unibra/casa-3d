@@ -16,6 +16,7 @@ Para atualizar o GitHub Pages, execute `npm run build` e envie também os arquiv
 - **Vista superior (abertura):** arraste para girar, role/pinça para aproximar; os nomes dos cômodos ajudam a localizar cada área.
 - **Caminhar:** arraste para olhar, use WASD/setas para andar e Q/E para girar. Em telas de toque, arraste na cena para olhar e use as setas na tela para andar. O botão **Ambientes** abre atalhos no celular.
 - **Fachada/Teto:** mostra a casa por fora ou oculta a cobertura. **Ambientes:** botões levam a pontos de visita com a câmera voltada para o interior. **Recentrar:** retorna a câmera do modo atual à posição inicial.
+- **Portas e grades:** clique ou toque nas folhas dos quartos, banheiro, serviço, fundos, porta de correr da sala ou grades da fachada e dos fundos para abrir e fechar. Uma passagem fechada bloqueia a caminhada; afaste-se da soleira antes de fechá-la.
 
 ## Planta e precisão
 
