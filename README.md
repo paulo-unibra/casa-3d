@@ -26,6 +26,8 @@ O reboco externo usa amarelo claro conforme a fotografia da fachada; as faixas d
 
 Na frente da casa aparece uma figura fotográfica gerada a partir do retrato e do violão enviados pelo proprietário, sentada em um banquinho. Três poses são interpoladas continuamente: a mão direita toca o violão, a boca abre e fecha como se cantasse, e o corpo balança de leve. Ela acompanha a direção da câmera e não ocupa a passagem para a entrada. A animação é visual, sem gravação de voz ou música.
 
+A segunda versão da figura usa fotografias adicionais do proprietário para aproximar seu rosto, cabelo e óculos reais, preservando o violão enviado como referência.
+
 O laudo de 27/02/2026 informa **54,07 m² de área privativa** e **114,88 m² de terreno**, mas a planta enviada não contém cotas lineares. O contorno aproximado de 6,40 × 8,45 m e cada dimensão de parede, porta e janela foram estimados pelas proporções do desenho e pelas fotografias. Mobiliário e peças sanitárias são representações esquemáticas. Não use o modelo para obra ou mobiliário sob medida sem levantamento in loco.
 
 O PDF, o vídeo e dados documentais pessoais não são publicados. O repositório inclui somente duas fotografias comprimidas da fachada/lateral e a planta enviada.

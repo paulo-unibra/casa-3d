@@ -31,7 +31,7 @@ const obstacles=[];
 // Three transparent poses animate the strumming hand and singing mouth.
 // Rotate the figure around Y so it stays legible as visitors circle the house.
 const performerLoader=new THREE.TextureLoader(),performerFrames=[];
-for(const [i,file] of ['violonista.webp','violonista-acorde.webp','violonista-canto.webp'].entries()){
+for(const [i,file] of ['violonista-v2.webp','violonista-acorde-v2.webp','violonista-canto-v2.webp'].entries()){
  const texture=performerLoader.load(`${import.meta.env.BASE_URL}${file}`);texture.colorSpace=THREE.SRGBColorSpace;performerFrames[i]=texture;
 }
 const performerMaterial=new THREE.ShaderMaterial({
