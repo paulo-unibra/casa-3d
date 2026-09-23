@@ -33,7 +33,7 @@ Ao lado dele, a cantora foi criada a partir das três fotos fornecidas. Ela apar
 
 O laudo de 27/02/2026 informa **54,07 m² de área privativa** e **114,88 m² de terreno**, mas a planta enviada não contém cotas lineares. O contorno aproximado de 6,40 × 8,45 m e cada dimensão de parede, porta e janela foram estimados pelas proporções do desenho e pelas fotografias. Mobiliário e peças sanitárias são representações esquemáticas. Não use o modelo para obra ou mobiliário sob medida sem levantamento in loco.
 
-A garagem lateral foi alargada no modelo para cerca de 3,35 m livres sobre um piso de concreto. O Corsa prateado é uma representação 3D estilizada baseada na fotografia enviada, estacionado com a frente voltada para a rua. A largura da garagem foi estimada pela foto e pelo pedido do proprietário, sem cotas confirmadas no terreno.
+A garagem lateral foi alargada no modelo para cerca de 3,35 m livres sobre um piso de concreto. O Corsa prateado é uma representação 3D estilizada baseada na fotografia enviada, estacionado com a frente voltada para a rua. A carroceria e o teto têm contornos arredondados, com faróis ovais, grade e emblema Chevrolet e placa KLL3G96. A largura da garagem foi estimada pela foto e pelo pedido do proprietário, sem cotas confirmadas no terreno.
 
 O PDF, o vídeo e dados documentais pessoais não são publicados. O repositório inclui somente duas fotografias comprimidas da fachada/lateral e a planta enviada.
 

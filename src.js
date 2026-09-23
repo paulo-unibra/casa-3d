@@ -34,34 +34,70 @@ box(.12,.45,5.2,6.9,.05,4.1,concrete);
 box(12.7,1.8,.16,.4,.72,-6.7,concrete);
 const obstacles=[];
 obstacles.push({x1:6.82,x2:6.98,z1:-6.8,z2:1.5});
-// Stylized silver Corsa hatchback, inspired by the owner's photo. Front faces +Z.
+// Rounded early-2000s Corsa hatchback from the supplied front photo. Its nose faces +Z.
 const corsa=new THREE.Group();corsa.position.set(5.0,0,2.15);scene.add(corsa);
-const carSilver=mat('#b7c2c6',.34,.44),carBright=mat('#d8e0e2',.3,.42),carDark=mat('#2c3437',.74),carGlass=mat('#3f545b',.17,.25),carLight=mat('#e7ece5',.16,.08),carRed=mat('#aa3939',.25,.1);
+const carSilver=mat('#b9c4c8',.38,.32),carBright=mat('#e2e8e8',.29,.22),carDark=mat('#252c2d',.75),carGlass=mat('#354448',.16,.22),carLight=mat('#e9eeea',.17,.05),carRed=mat('#af3537',.3,.05);
+carSilver.side=THREE.DoubleSide;carGlass.side=THREE.DoubleSide;
 function carBox(w,h,d,x,y,z,material,radius=.04){const mesh=new THREE.Mesh(new RoundedBoxGeometry(w,h,d,3,radius),material);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;corsa.add(mesh);return mesh}
-function carQuad(points,material){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(points.flat(),3));g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();const mesh=new THREE.Mesh(g,material);mesh.material.side=THREE.DoubleSide;corsa.add(mesh)}
-carBox(1.72,.52,3.72,0,.43,0,carSilver,.14);
-carBox(1.65,.16,1.27,0,.72,1.16,carBright,.07);
-carBox(1.68,.15,.91,0,.71,-1.37,carSilver,.06);
-const cabinProfile=new THREE.Shape();cabinProfile.moveTo(-1.52,.66);cabinProfile.lineTo(-.95,1.36);cabinProfile.lineTo(.55,1.36);cabinProfile.lineTo(1.1,.68);cabinProfile.closePath();
-const cabin=new THREE.Mesh(new THREE.ExtrudeGeometry(cabinProfile,{depth:1.4,bevelEnabled:false}),carSilver);cabin.rotation.y=-Math.PI/2;cabin.position.x=.7;cabin.castShadow=true;corsa.add(cabin);
-carQuad([[.62,1.31,.57],[-.62,1.31,.57],[-.69,.77,1.08],[.69,.77,1.08]],carGlass);
-carQuad([[.62,1.31,-.97],[-.62,1.31,-.97],[-.68,.77,-1.48],[.68,.77,-1.48]],carGlass);
-for(const side of [-1,1]){
- const x=side*.713;
- carQuad([[x,1.29,.5],[x,1.29,-.22],[x,.81,-.22],[x,.81,.98]],carGlass);
- carQuad([[x,1.29,-.29],[x,1.29,-.91],[x,.81,-1.34],[x,.81,-.29]],carGlass);
- carBox(.075,.075,.25,side*.79,.76,.87,carSilver,.025);
- for(const z of [-1.13,1.13]){
-  const tire=new THREE.Mesh(new THREE.CylinderGeometry(.29,.29,.15,24),carDark);tire.rotation.z=Math.PI/2;tire.position.set(side*.87,.22,z);tire.castShadow=true;corsa.add(tire);
-  const rim=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.16,16),carBright);rim.rotation.z=Math.PI/2;rim.position.set(side*.88,.22,z);corsa.add(rim);
+function carQuad(points,material){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(points.flat(),3));g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();const mesh=new THREE.Mesh(g,material);corsa.add(mesh);return mesh}
+function carLoft(stations,section,material){
+ const positions=[],indices=[],rings=[];
+ for(let i=0;i<stations.length-1;i++)for(let s=0;s<5;s++){
+  const t=s/5,p={};for(const key of Object.keys(stations[i]))p[key]=THREE.MathUtils.lerp(stations[i][key],stations[i+1][key],t);
+  rings.push(section(p));
  }
- carBox(.32,.13,.055,side*.59,.63,1.875,carLight,.04);
- carBox(.26,.18,.055,side*.64,.64,-1.875,carRed,.03);
+ rings.push(section(stations.at(-1)));
+ for(const ring of rings)for(const point of ring)positions.push(...point);
+ const n=rings[0].length;
+ for(let i=0;i<rings.length-1;i++)for(let j=0;j<n-1;j++){const a=i*n+j,b=(i+1)*n+j;indices.push(a,a+1,b,a+1,b+1,b)}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));g.setIndex(indices);g.computeVertexNormals();
+ const mesh=new THREE.Mesh(g,material);mesh.castShadow=true;mesh.receiveShadow=true;corsa.add(mesh);return mesh;
 }
-carBox(1.68,.16,.13,0,.3,1.89,carSilver,.045);
-carBox(.73,.115,.025,0,.59,1.878,carDark,.045);
-const badge=new THREE.Mesh(new THREE.CircleGeometry(.047,16),carBright);badge.position.set(0,.6,1.9);corsa.add(badge);
-carBox(.47,.105,.022,0,.37,1.965,carLight,.015);
+const bodyStations=[
+ {z:-1.92,w:.55,cy:.43,ry:.21},{z:-1.79,w:.73,cy:.45,ry:.26},{z:-1.45,w:.82,cy:.45,ry:.29},
+ {z:-.92,w:.85,cy:.46,ry:.31},{z:.78,w:.85,cy:.46,ry:.31},{z:1.36,w:.82,cy:.45,ry:.28},
+ {z:1.76,w:.73,cy:.44,ry:.24},{z:1.92,w:.56,cy:.44,ry:.19}
+];
+carLoft(bodyStations,p=>Array.from({length:17},(_,i)=>{const a=i*Math.PI*2/16;return [p.w*Math.cos(a),p.cy+p.ry*Math.sin(a),p.z]}),carSilver);
+for(const p of [bodyStations[0],bodyStations.at(-1)]){const cap=new THREE.Mesh(new THREE.CircleGeometry(1,32),carSilver);cap.scale.set(p.w,p.ry,1);cap.position.set(0,p.cy,p.z);corsa.add(cap)}
+const cabinStations=[
+ {z:-1.51,w:.69,roof:.81},{z:-1.17,w:.67,roof:1.13},{z:-.82,w:.65,roof:1.35},
+ {z:.39,w:.65,roof:1.35},{z:.72,w:.67,roof:1.13},{z:1.10,w:.71,roof:.79}
+];
+carLoft(cabinStations,p=>[
+ [-p.w,.75,p.z],[-p.w*.88,p.roof-.04,p.z],[-p.w*.58,p.roof,p.z],
+ [0,p.roof+.025,p.z],[p.w*.58,p.roof,p.z],[p.w*.88,p.roof-.04,p.z],[p.w,.75,p.z]
+],carSilver);
+carQuad([[-.57,1.27,.43],[.57,1.27,.43],[.68,.84,1.02],[-.68,.84,1.02]],carGlass);
+carQuad([[-.56,1.27,-.86],[.56,1.27,-.86],[.66,.83,-1.43],[-.66,.83,-1.43]],carGlass);
+for(const side of [-1,1]){
+ const x=side;
+ carQuad([[x*.58,1.29,.42],[x*.59,1.29,-.21],[x*.70,.83,-.21],[x*.70,.83,.93]],carGlass);
+ carQuad([[x*.59,1.29,-.28],[x*.57,1.27,-.82],[x*.68,.83,-1.34],[x*.70,.83,-.28]],carGlass);
+ carBox(.18,.09,.27,x*.82,.75,.76,carSilver,.035); // side mirror
+ for(const z of [-1.12,1.12]){
+  const tire=new THREE.Mesh(new THREE.CylinderGeometry(.29,.29,.17,32),carDark);tire.rotation.z=Math.PI/2;tire.position.set(x*.9,.22,z);tire.castShadow=true;corsa.add(tire);
+  const rim=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.18,24),carBright);rim.rotation.z=Math.PI/2;rim.position.set(x*.91,.22,z);corsa.add(rim);
+ }
+ // Oval headlights, wheel arches and small fog lamps echo the reference photograph.
+ const lampTrim=new THREE.Mesh(new THREE.SphereGeometry(1,20,12),carDark);lampTrim.scale.set(.265,.105,.045);lampTrim.position.set(x*.55,.62,1.87);corsa.add(lampTrim);
+ const lamp=new THREE.Mesh(new THREE.SphereGeometry(1,20,12),carLight);lamp.scale.set(.24,.085,.05);lamp.position.set(x*.55,.63,1.91);corsa.add(lamp);
+ const fog=new THREE.Mesh(new THREE.SphereGeometry(1,16,12),carDark);fog.scale.set(.095,.065,.025);fog.position.set(x*.61,.29,1.94);corsa.add(fog);
+ carBox(.26,.15,.06,x*.65,.59,-1.87,carRed,.035);
+ carBox(.18,.035,.035,x*.86,.69,.45,carDark,.012); // door handle
+}
+carBox(1.5,.11,.105,0,.31,1.89,carBright,.05);
+const grille=new THREE.Mesh(new THREE.CircleGeometry(1,32),carDark);grille.scale.set(.39,.085,1);grille.position.set(0,.59,1.955);corsa.add(grille);
+const badgeRing=new THREE.Mesh(new THREE.RingGeometry(.044,.057,24),carBright);badgeRing.position.set(0,.59,1.967);corsa.add(badgeRing);
+const bowtieShape=new THREE.Shape();bowtieShape.moveTo(-.045,-.012);bowtieShape.lineTo(-.018,-.012);bowtieShape.lineTo(-.018,-.025);bowtieShape.lineTo(.018,-.025);bowtieShape.lineTo(.018,-.012);bowtieShape.lineTo(.045,-.012);bowtieShape.lineTo(.045,.012);bowtieShape.lineTo(.018,.012);bowtieShape.lineTo(.018,.025);bowtieShape.lineTo(-.018,.025);bowtieShape.lineTo(-.018,.012);bowtieShape.lineTo(-.045,.012);bowtieShape.closePath();
+const bowtie=new THREE.Mesh(new THREE.ShapeGeometry(bowtieShape),carBright);bowtie.position.set(0,.59,1.97);corsa.add(bowtie);
+const plateCanvas=document.createElement('canvas');plateCanvas.width=512;plateCanvas.height=160;const plateInk=plateCanvas.getContext('2d');
+plateInk.fillStyle='#f4f5f2';plateInk.fillRect(0,0,512,160);plateInk.fillStyle='#174884';plateInk.fillRect(0,0,512,38);
+plateInk.fillStyle='#fff';plateInk.font='bold 23px sans-serif';plateInk.textAlign='center';plateInk.fillText('BRASIL',256,28);
+plateInk.fillStyle='#1e2527';plateInk.font='bold 94px sans-serif';plateInk.fillText('KLL3G96',256,130);
+plateInk.strokeStyle='#64747c';plateInk.lineWidth=5;plateInk.strokeRect(3,3,506,154);
+const plateTexture=new THREE.CanvasTexture(plateCanvas);plateTexture.colorSpace=THREE.SRGBColorSpace;
+const plate=new THREE.Mesh(new THREE.PlaneGeometry(.64,.2),new THREE.MeshBasicMaterial({map:plateTexture,side:THREE.DoubleSide}));plate.position.set(0,.4,1.988);corsa.add(plate);
 obstacles.push({x1:4.08,x2:5.92,z1:.2,z2:4.1});
 // Three transparent poses animate the strumming hand and singing mouth.
 // Rotate the figure around Y so it stays legible as visitors circle the house.
