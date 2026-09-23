@@ -1,0 +1,12 @@
+import {cpSync, copyFileSync, existsSync, mkdirSync, readdirSync, rmSync} from 'node:fs';
+import {resolve} from 'node:path';
+const root=resolve(import.meta.dirname,'..');
+const dist=resolve(root,'dist');
+copyFileSync(resolve(dist,'source.html'),resolve(dist,'index.html'));
+copyFileSync(resolve(dist,'index.html'),resolve(root,'index.html'));
+const assets=resolve(root,'assets');
+if(existsSync(assets))rmSync(assets,{recursive:true});
+mkdirSync(assets);
+for(const name of readdirSync(resolve(dist,'assets')))copyFileSync(resolve(dist,'assets',name),resolve(assets,name));
+for(const name of ['fachada.jpg','lateral.jpg'])copyFileSync(resolve(root,'public',name),resolve(root,name));
+console.log('Arquivos do GitHub Pages atualizados na raiz.');

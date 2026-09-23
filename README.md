@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-Para publicar em hospedagem estática: `npm run build`; o conteúdo final estará em `dist/`. A configuração do Vite usa caminhos relativos para funcionar também no GitHub Pages em `/casa-3d/`.
+Para atualizar o GitHub Pages, execute `npm run build` e envie também os arquivos gerados na raiz (`index.html`, `assets/`, `fachada.jpg`, `lateral.jpg`). O Pages deve usar **Deploy from a branch → main → /(root)**. O arquivo `source.html` é a entrada do Vite para desenvolvimento; o `index.html` da raiz é o resultado compilado. O conteúdo de `dist/` também pode ser publicado em outra hospedagem estática.
 
 ## Controles
 
