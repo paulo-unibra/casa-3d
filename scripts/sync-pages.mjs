@@ -8,5 +8,5 @@ const assets=resolve(root,'assets');
 if(existsSync(assets))rmSync(assets,{recursive:true});
 mkdirSync(assets);
 for(const name of readdirSync(resolve(dist,'assets')))copyFileSync(resolve(dist,'assets',name),resolve(assets,name));
-for(const name of ['fachada.jpg','lateral.jpg','planta-original.png','violonista-v2.webp','violonista-acorde-v2.webp','violonista-canto-v2.webp'])copyFileSync(resolve(root,'public',name),resolve(root,name));
+for(const name of ['fachada.jpg','lateral.jpg','planta-original.png','violonista-v2.webp','violonista-acorde-v2.webp','violonista-canto-v2.webp','cantora.webp','cantora-pausa.webp','cantora-canto.webp'])copyFileSync(resolve(root,'public',name),resolve(root,name));
 console.log('Arquivos do GitHub Pages atualizados na raiz.');

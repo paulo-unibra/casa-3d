@@ -28,6 +28,8 @@ Na frente da casa aparece uma figura fotográfica gerada a partir do retrato e d
 
 A segunda versão da figura usa fotografias adicionais do proprietário para aproximar seu rosto, cabelo e óculos reais, preservando o violão enviado como referência.
 
+Ao lado dele, a cantora foi criada a partir das três fotos fornecidas. Ela aparece sentada em outro banquinho, com vestido longo de mangas compridas, e animações independentes de boca, gesto e balanço do corpo. Os dois permanecem ao lado da entrada, deixando livre o caminho do terraço. O canto de ambos é somente visual, sem áudio gravado.
+
 O laudo de 27/02/2026 informa **54,07 m² de área privativa** e **114,88 m² de terreno**, mas a planta enviada não contém cotas lineares. O contorno aproximado de 6,40 × 8,45 m e cada dimensão de parede, porta e janela foram estimados pelas proporções do desenho e pelas fotografias. Mobiliário e peças sanitárias são representações esquemáticas. Não use o modelo para obra ou mobiliário sob medida sem levantamento in loco.
 
 O PDF, o vídeo e dados documentais pessoais não são publicados. O repositório inclui somente duas fotografias comprimidas da fachada/lateral e a planta enviada.
