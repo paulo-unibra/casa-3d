@@ -24,7 +24,7 @@ A planta enviada pelo proprietário define a **disposição** dos ambientes. Olh
 
 O reboco externo usa amarelo claro conforme a fotografia da fachada; as faixas de cerâmica continuam verdes. As folhas das portas dos dois quartos e do banheiro são marrons. As portas metálicas de serviço e dos fundos mantêm seu acabamento claro.
 
-Na frente da casa aparece uma figura fotográfica gerada a partir do retrato e do violão enviados pelo proprietário, sentada em um banquinho com o violão. Ela gira para acompanhar o ponto de vista durante o passeio e não ocupa a passagem para a entrada. A figura é uma representação visual estática, sem áudio.
+Na frente da casa aparece uma figura fotográfica gerada a partir do retrato e do violão enviados pelo proprietário, sentada em um banquinho. Três poses são interpoladas continuamente: a mão direita toca o violão, a boca abre e fecha como se cantasse, e o corpo balança de leve. Ela acompanha a direção da câmera e não ocupa a passagem para a entrada. A animação é visual, sem gravação de voz ou música.
 
 O laudo de 27/02/2026 informa **54,07 m² de área privativa** e **114,88 m² de terreno**, mas a planta enviada não contém cotas lineares. O contorno aproximado de 6,40 × 8,45 m e cada dimensão de parede, porta e janela foram estimados pelas proporções do desenho e pelas fotografias. Mobiliário e peças sanitárias são representações esquemáticas. Não use o modelo para obra ou mobiliário sob medida sem levantamento in loco.
 
