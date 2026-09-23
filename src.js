@@ -31,8 +31,8 @@ const obstacles=[];
 function wallX(x1,x2,z,m=plaster,h=H,y=h/2,collide=true){const o=box(Math.abs(x2-x1),h,T,(x1+x2)/2,y,z,m);if(collide)obstacles.push({x1:Math.min(x1,x2)-.07,x2:Math.max(x1,x2)+.07,z1:z-T,z2:z+T});return o}
 function wallZ(z1,z2,x,m=plaster,h=H,y=h/2,collide=true){const o=box(T,h,Math.abs(z2-z1),x,y,(z1+z2)/2,m);if(collide)obstacles.push({x1:x-T,x2:x+T,z1:Math.min(z1,z2)-.07,z2:Math.max(z1,z2)+.07});return o}
 // External shell: metal entry into the terrace at left; bedroom window at right.
-wallX(-3.2,-2.65,front);wallX(-1.7,1.05,front);wallX(2.25,3.2,front);
-wallX(-2.65,-1.7,front,plaster,.53,2.535,false);
+wallX(-3.2,-2.65,front);wallX(-.75,1.05,front);wallX(2.25,3.2,front);
+wallX(-2.65,-.75,front,plaster,.5,2.55,false);
 wallX(1.05,2.25,front,plaster,1.04,.52);wallX(1.05,2.25,front,greenTiles,.4,2.6,false);
 wallX(-3.2,-2.7,back);wallX(-1.6,3.2,back);wallX(-2.7,-1.6,back,plaster,.55,2.525,false);
 wallZ(back,front,-3.2);
@@ -45,7 +45,7 @@ box(1.2,.4,.015,1.65,2.6,front+.083,greenTiles,false);
 box(.016,.9,1.04,3.285,.45,.45,greenTiles,false);
 box(.016,.54,1.04,3.285,2.53,.45,greenTiles,false);
 // Terrace -> Sala; the wide opening reproduces the photo of the entrance.
-wallX(-3.2,-2.65,terraceZ,interior);wallX(-1.18,splitX,terraceZ,interior);
+wallX(-3.2,-2.65,terraceZ,interior);wallX(-.65,splitX,terraceZ,interior);
 // Sala -> Quarto 1, door on the top edge of the bedroom in the supplied plan.
 wallX(splitX,.65,room1Z,interior);wallX(1.36,3.2,room1Z,interior);
 wallZ(room1Z,front,splitX,interior);
@@ -59,7 +59,7 @@ wallX(-3.2,splitX,serviceZ,interior);
 wallZ(back,-3.55,splitX,interior);wallZ(-2.75,-1.95,splitX,interior);wallZ(-1.18,rearZ,splitX,interior);
 function openingX(x,z,w=.8,frame=whiteMetal){box(.045,2.12,.06,x-w/2,1.06,z,frame,false);box(.045,2.12,.06,x+w/2,1.06,z,frame,false);box(w+.1,.06,.08,x,2.11,z,frame,false)}
 function openingZ(x,z,w=.8,frame=whiteMetal){box(.06,2.12,.045,x,1.06,z-w/2,frame,false);box(.06,2.12,.045,x,1.06,z+w/2,frame,false);box(.08,.06,w+.1,x,2.11,z,frame,false)}
-openingX(-2.17,front,.95,darkMetal);openingX(-1.92,terraceZ,1.47,whiteMetal);
+openingX(-1.70,front,1.9,darkMetal);openingX(-1.65,terraceZ,2,whiteMetal);
 openingX(1.005,room1Z,.71,mat('#8b5940'));openingZ(room2X,.38,.8,mat('#8b5940'));
 openingZ(splitX,-1.565,.77,mat('#8b5940'));openingZ(splitX,-3.15,.8,whiteMetal);
 openingX(-2.15,back,1.1,whiteMetal);
@@ -67,12 +67,46 @@ function windowX(x,z,w,h,y){box(w+.1,.055,.08,x,y+h/2,z,whiteMetal,false);box(w+
 function windowZ(x,z,w,h,y){box(.08,.055,w+.1,x,y+h/2,z,whiteMetal,false);box(.08,.055,w+.1,x,y-h/2,z,whiteMetal,false);box(.08,h,.05,x,y,z-w/2,whiteMetal,false);box(.08,h,.05,x,y,z+w/2,whiteMetal,false);box(.015,h,w,x,y,z,glass,false);for(let v=-w/2+.16;v<w/2;v+=.2)box(.02,h,.013,x+.08,y,z+v,darkMetal,false);for(let v=-h/2+.17;v<h/2;v+=.2)box(.02,.013,w,x+.08,y+v,z,darkMetal,false)}
 windowX(1.65,front+.089,1.2,1.12,1.63);
 windowZ(3.29,.45,1,.9,1.47);
-// Lightweight entrance grille and aluminium glazed door.
-box(.055,2.0,.055,-2.72,1.01,front+.16,darkMetal,false);box(.055,2.0,.055,-1.66,1.01,front+.16,darkMetal,false);
-for(let i=0;i<10;i++)box(1.09,.018,.025,-2.19,.22+i*.19,front+.17,darkMetal,false);
-box(.92,1.99,.035,-2.17,1,front-.06,glass,false);
-for(let i=0;i<2;i++)box(.045,2,.05,-2.65+i*.96,1,front-.04,whiteMetal,false);
-box(.96,.045,.05,-2.17,1.87,front-.04,whiteMetal,false);
+// Open double-leaf metal grille at the facade, proportional to the supplied plan.
+function gate(x1,x2,z){
+ const width=(x2-x1)/2-.025,height=2.25;
+ for(const hinge of [x1,x2])box(.045,height,.045,hinge,height/2,z+.12,darkMetal,false);
+ for(const [hinge,dir,angle] of [[x1,1,-1.13],[x2,-1,1.13]]){
+  const leaf=new THREE.Group();leaf.position.set(hinge,0,z+.12);leaf.rotation.y=angle;scene.add(leaf);
+  const part=(w,h,d,x,y,pz)=>{const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),darkMetal);mesh.position.set(x,y,pz);leaf.add(mesh)};
+  for(const y of [.13,height-.08])part(width,.035,.035,dir*width/2,y,0);
+  for(const x of [0,dir*width/2,dir*width])part(.035,height,.035,x,height/2,0);
+  for(let y=.31;y<height-.14;y+=.19)part(width-.05,.02,.025,dir*width/2,y,0);
+ }
+}
+gate(-2.65,-.75,front);
+// Aluminium sliding door between the terrace and living room; one side is open.
+box(.94,1.98,.022,-2.18,1.0,terraceZ+.035,glass,false);
+for(const x of [-2.65,-1.7])box(.035,2.04,.035,x,1.02,terraceZ+.05,whiteMetal,false);
+for(const y of [.03,2.04])box(.98,.035,.035,-2.17,y,terraceZ+.05,whiteMetal,false);
+box(.025,.22,.025,-1.77,1.05,terraceZ+.09,darkMetal,false);
+obstacles.push({x1:-2.7,x2:-1.68,z1:terraceZ-.09,z2:terraceZ+.1});
+// Room doors have a white leaf and the brown jamb visible in the walk-through.
+const doorWhite=mat('#e8e8e3',.58),handle=mat('#aab0ac',.34,.6);
+function doorLeafX(x,z,w,swing,material=doorWhite){
+ const pivot=new THREE.Group();pivot.position.set(x,0,z);pivot.rotation.y=swing;scene.add(pivot);
+ const part=(pw,ph,pd,px,py,pz,m)=>{const mesh=new THREE.Mesh(new THREE.BoxGeometry(pw,ph,pd),m);mesh.position.set(px,py,pz);mesh.castShadow=true;pivot.add(mesh)};
+ part(w-.045,2.02,.035,w/2,1.01,0,material);
+ for(const y of [.3,1.65])part(w-.14,.012,.006,w/2,y,.022,whiteMetal);
+ part(.065,.025,.08,w-.13,1.01,.065,handle);
+}
+function doorLeafZ(x,z,w,swing,material=doorWhite){
+ const pivot=new THREE.Group();pivot.position.set(x,0,z);pivot.rotation.y=swing;scene.add(pivot);
+ const part=(pw,ph,pd,px,py,pz,m)=>{const mesh=new THREE.Mesh(new THREE.BoxGeometry(pw,ph,pd),m);mesh.position.set(px,py,pz);mesh.castShadow=true;pivot.add(mesh)};
+ part(.035,2.02,w-.045,0,1.01,w/2,material);
+ for(const y of [.3,1.65])part(.006,.012,w-.14,.022,y,w/2,whiteMetal);
+ part(.08,.025,.065,.065,1.01,w-.13,handle);
+}
+doorLeafX(.65,room1Z,.71,-1.19); // Quarto 1 opens into the bedroom.
+doorLeafZ(room2X,-.02,.8,1.16); // Quarto 2 opens into the bedroom.
+doorLeafZ(splitX,-1.95,.77,-1.14); // Bathroom.
+doorLeafZ(splitX,-3.55,.8,-1.14,whiteMetal); // Service area.
+doorLeafX(-2.7,back,1.1,1.15,whiteMetal); // Rear exit.
 // Fixtures remain schematic; their room placement matches the new plan.
 const wetWall=mat('#d5d4ce');
 box(2.3,1.45,.018,1.55,1.07,back+.09,wetWall,false);
@@ -84,7 +118,6 @@ box(.45,.15,.4,-2.4,.37,-1.55,whiteMetal,false);
 box(.6,.42,.18,-1.0,.82,-2.2,whiteMetal,false);
 box(.5,.07,.31,-1.0,1.04,-2.2,whiteMetal,false);
 box(.8,.08,.5,-2.35,.86,-3.76,concrete,false);
-box(1.05,1.86,.024,-2.15,.94,back-.01,glass,false);
 windowX(-1.85,back-.09,.55,.35,2.18);
 // Roof: a shallow sloping rendered volume, hidden in aerial and walking views.
 const roof=new THREE.Group();scene.add(roof);const roofGeom=new THREE.BoxGeometry(6.67,.12,8.73);const roofMesh=new THREE.Mesh(roofGeom,mat('#a5a497'));roofMesh.position.set(0,2.98,0);roofMesh.rotation.z=-.045;roofMesh.castShadow=true;roofMesh.receiveShadow=true;roof.add(roofMesh);const fascia=box(6.7,.12,.08,0,2.99,4.39,mat('#9d9a8e'));roof.add(fascia);
@@ -95,7 +128,7 @@ for(const [name,x,z] of [['SALA',-.9,.7],['TERRAÇO',-1.62,3.58],['QUARTO 1',1.6
 }
 // Soft context: neighbouring low volumes avoid a floating diorama.
 for(const x of [-10.6,10.9]){box(5.2,2.6,8.6,x,1.2,-1.4,plaster);box(5.4,.13,8.8,x,2.56,-1.4,concrete)}
-const visit=[['Fachada',[-.2,1.65,9.0],0],['Terraço',[-1.8,1.62,3.64],0],['Sala',[-1.2,1.62,1.2],-.55],['Quarto 1',[1.6,1.62,3.0],0],['Quarto 2',[2.2,1.62,.45],0],['Cozinha',[1.6,1.62,-2.45],Math.PI],['Banheiro',[-1.65,1.62,-1.65],Math.PI/2],['Serviço',[-1.65,1.62,-3.35],0],['Jardim',[4.15,1.62,-.7],Math.PI/2]];
+const visit=[['Fachada',[-.2,1.65,9.0],0],['Terraço',[-1.2,1.62,3.64],0],['Sala',[-1.2,1.62,1.2],-.55],['Quarto 1',[1.6,1.62,3.0],0],['Quarto 2',[2.2,1.62,.45],0],['Cozinha',[1.6,1.62,-2.45],Math.PI],['Banheiro',[-1.65,1.62,-1.65],Math.PI/2],['Serviço',[-1.65,1.62,-3.35],0],['Jardim',[4.15,1.62,-.7],Math.PI/2]];
 const rooms=document.querySelector('#rooms');visit.slice(1).forEach(([name],i)=>{const b=document.createElement('button');b.className='room';b.textContent=name;b.onclick=()=>go(i+1);rooms.append(b)});
 let mode='aerial',yaw=0,pitch=0,roofVisible=false,pressed=new Set(),drag=false,lastX=0,lastY=0;
 const label=document.querySelector('#scene-label');
