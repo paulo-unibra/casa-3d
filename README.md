@@ -16,6 +16,7 @@ Para atualizar o GitHub Pages, execute `npm run build` e envie também os arquiv
 - **Vista superior (abertura):** arraste para girar, role/pinça para aproximar; os nomes dos cômodos ajudam a localizar cada área.
 - **Caminhar:** arraste para olhar, use WASD/setas para andar e Q/E para girar. Em telas de toque, arraste na cena para olhar e use as setas na tela para andar. O botão **Ambientes** abre atalhos no celular.
 - **Fachada/Teto:** mostra a casa por fora ou oculta a cobertura. **Ambientes:** botões levam a pontos de visita com a câmera voltada para o interior. **Recentrar:** retorna a câmera do modo atual à posição inicial.
+- **Garagem:** o botão leva à faixa lateral direita ampliada, com o carro prateado estacionado e espaço para circular. Também aparece na vista superior.
 - **Portas e grades:** clique ou toque nas folhas dos quartos, banheiro, serviço, fundos, porta de correr da sala ou grades da fachada e dos fundos para abrir e fechar. Uma passagem fechada bloqueia a caminhada; afaste-se da soleira antes de fechá-la.
 
 ## Planta e precisão
@@ -31,6 +32,8 @@ A segunda versão da figura usa fotografias adicionais do proprietário para apr
 Ao lado dele, a cantora foi criada a partir das três fotos fornecidas. Ela aparece sentada em outro banquinho, com vestido longo de mangas compridas, e animações independentes de boca, gesto e balanço do corpo. Os dois permanecem ao lado da entrada, deixando livre o caminho do terraço. O canto de ambos é somente visual, sem áudio gravado.
 
 O laudo de 27/02/2026 informa **54,07 m² de área privativa** e **114,88 m² de terreno**, mas a planta enviada não contém cotas lineares. O contorno aproximado de 6,40 × 8,45 m e cada dimensão de parede, porta e janela foram estimados pelas proporções do desenho e pelas fotografias. Mobiliário e peças sanitárias são representações esquemáticas. Não use o modelo para obra ou mobiliário sob medida sem levantamento in loco.
+
+A garagem lateral foi alargada no modelo para cerca de 3,35 m livres sobre um piso de concreto. O Corsa prateado é uma representação 3D estilizada baseada na fotografia enviada, estacionado com a frente voltada para a rua. A largura da garagem foi estimada pela foto e pelo pedido do proprietário, sem cotas confirmadas no terreno.
 
 O PDF, o vídeo e dados documentais pessoais não são publicados. O repositório inclui somente duas fotografias comprimidas da fachada/lateral e a planta enviada.
 
